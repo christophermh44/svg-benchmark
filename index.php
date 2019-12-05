@@ -1,3 +1,6 @@
+<?php
+$dataUri = 'data:image/svg+xml;base64,' . urlencode(base64_encode(str_replace("\n", ' ', file_get_contents(__DIR__.'/test.svg')))); 
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -80,18 +83,23 @@
 		<?= file_get_contents(__DIR__.'/test.svg') ?>
 	</div>
 	
-	<h2>SVG use / symbol</h2>
+	<h2>SVG in HTML + use</h2>
 	<div class="svg-wrapper">
 		<svg width="600" height="100">
 			<use href="svg-use-proxy.php#test-svg"></use>
 		</svg>
 	</div>
 	
-	<h2>object / embed</h2>
+	<h2>object data="URL"</h2>
 	<div class="svg-wrapper">
 		<object data="test.svg" height="100" width="600" type="image/svg+xml"></object>
 	</div>
-	
+
+	<h2>object data="data-uri"</h2>
+	<div class="svg-wrapper">
+		<object data="<?= $dataUri ?>" height="100" width="600" type="image/svg+xml"></object>
+	</div>
+
 	<h2>&lt;img src="URL"&gt;</h2>
 	<div class="svg-wrapper">
 		<img src="test.svg" alt="">
@@ -99,7 +107,7 @@
 	
 	<h2>&lt;img src="data-uri"&gt;</h2>
 	<div class="svg-wrapper">
-		<img src="data:image/svg+xml;base64,<?= urlencode(base64_encode(str_replace("\n", ' ', file_get_contents(__DIR__.'/test.svg')))) ?>" alt="">
+		<img src="<?= $dataUri ?>" alt="">
 	</div>
 	
 	<h2>background-image: URL</h2>
@@ -109,7 +117,7 @@
 
 	<h2>background-image: data-uri</h2>
 	<div class="svg-wrapper">
-		<div class="background-wrapper" style="background-image: url('data:image/svg+xml;base64,<?= urlencode(base64_encode(str_replace("\n", ' ', file_get_contents(__DIR__.'/test.svg')))) ?>')"></div>
+		<div class="background-wrapper" style="background-image: url('<?= $dataUri ?>')"></div>
 	</div>
 </body>
 </html>
